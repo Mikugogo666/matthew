@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 知识库工单助手</title>
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --panel: #ffffff;
+            --ink: #132238;
+            --muted: #5d6b7d;
+            --line: #d8e2ef;
+            --brand: #2563eb;
+            --brand-soft: #dbeafe;
+            --accent: #0f766e;
+            --accent-soft: #d1fae5;
+            --warn: #b45309;
+            --warn-soft: #ffedd5;
+            --shadow: 0 18px 48px rgba(19, 34, 56, 0.10);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei UI", "PingFang SC", "Segoe UI", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 28%),
+                radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 22%),
+                linear-gradient(180deg, #eef4fb 0%, var(--bg) 100%);
+        }
+
+        .page {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 36px 20px 48px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .hero-card,
+        .status-card,
+        .panel {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(216, 226, 239, 0.8);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card {
+            padding: 28px;
+        }
+
+        .hero-card h1 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: #edf4ff;
+            color: #1d4ed8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-card {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .status-card h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .status-line {
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: var(--brand-soft);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 20px;
+        }
+
+        .stack {
+            display: grid;
+            gap: 20px;
+        }
+
+        .panel {
+            padding: 22px;
+        }
+
+        .panel h3 {
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .panel p.sub {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #2d3d52;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: #f8fbff;
+            border-radius: 14px;
+            padding: 13px 14px;
+            font: inherit;
+            color: var(--ink);
+            transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #77a7ff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            min-height: 116px;
+            resize: vertical;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 14px;
+            padding: 12px 18px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(37, 99, 235, 0.14);
+        }
+
+        button.primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+        }
+
+        button.secondary {
+            background: #edf4ff;
+            color: #1d4ed8;
+        }
+
+        button.ghost {
+            background: #f7fafc;
+            color: #334155;
+        }
+
+        .output,
+        .list {
+            margin-top: 18px;
+            border: 1px solid var(--line);
+            background: #f9fbfe;
+            border-radius: 18px;
+            padding: 16px;
+            min-height: 110px;
+        }
+
+        .output pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .ticket-card {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: #fff;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .ticket-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .ticket-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .ticket-title {
+            font-weight: 700;
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .pill {
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .pill.category {
+            background: var(--brand-soft);
+            color: var(--brand);
+        }
+
+        .pill.priority {
+            background: var(--warn-soft);
+            color: var(--warn);
+        }
+
+        .pill.mode {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty {
+            color: var(--muted);
+            text-align: center;
+            padding: 24px 0;
+        }
+
+        @media (max-width: 960px) {
+            .hero,
+            .layout,
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .page {
+                padding: 24px 14px 40px;
+            }
+
+            .hero-card h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <section class="hero">
+        <div class="hero-card">
+            <h1>AI 知识库工单助手</h1>
+            <p>这是一个基于 <strong>Java 21 + Spring Boot + Spring AI</strong> 的浏览器端应用。你可以直接在页面里导入知识文本、发起智能聊天、创建工单，并查看分类、优先级、回复草稿和引用结果。</p>
+            <div class="hero-tags">
+                <span class="tag">Spring Boot</span>
+                <span class="tag">Spring AI</span>
+                <span class="tag">RAG</span>
+                <span class="tag">Fallback Mode</span>
+                <span class="tag">Ticket Workflow</span>
+            </div>
+        </div>
+        <div class="status-card">
+            <div>
+                <h2>服务状态</h2>
+                <div class="status-line">
+                    <span>后端健康检查</span>
+                    <span id="healthBadge" class="status-badge">检测中</span>
+                </div>
+            </div>
+            <div class="muted" id="knowledgeStatusText">知识库状态加载中...</div>
+        </div>
+    </section>
+
+    <section class="layout">
+        <div class="stack">
+            <div class="panel">
+                <h3>知识库导入</h3>
+                <p class="sub">先导入说明文档、FAQ 或制度文本，后续聊天和工单可以选择是否引用知识库。</p>
+                <div class="field">
+                    <label for="knowledgeTitle">知识标题</label>
+                    <input id="knowledgeTitle" placeholder="例如：校园网处理说明">
+                </div>
+                <div class="field">
+                    <label for="knowledgeContent">知识内容</label>
+                    <textarea id="knowledgeContent" placeholder="输入一段知识文本，例如处理流程、常见问题、产品文档摘要。"></textarea>
+                </div>
+                <div class="actions">
+                    <button class="primary" id="ingestBtn">导入知识</button>
+                    <button class="secondary" id="refreshKnowledgeBtn">刷新状态</button>
+                </div>
+                <div class="output">
+                    <pre id="knowledgeOutput">等待导入知识...</pre>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>工单助手</h3>
+                <p class="sub">输入用户问题，系统会生成工单分类、优先级、摘要和回复草稿。</p>
+                <div class="row">
+                    <div class="field">
+                        <label for="customerName">客户名</label>
+                        <input id="customerName" placeholder="例如：张三">
+                    </div>
+                    <div class="field">
+                        <label for="ticketKnowledgeFlag">是否引用知识库</label>
+                        <input id="ticketKnowledgeFlag" value="true" placeholder="true / false">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="ticketQuestion">问题内容</label>
+                    <textarea id="ticketQuestion" placeholder="例如：校园网一直连不上，提示认证失败，怎么办？"></textarea>
+                </div>
+                <div class="actions">
+                    <button class="primary" id="createTicketBtn">创建工单</button>
+                    <button class="secondary" id="loadTicketsBtn">刷新工单列表</button>
+                </div>
+                <div class="list" id="ticketList">
+                    <div class="empty">还没有工单</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stack">
+            <div class="panel">
+                <h3>智能聊天</h3>
+                <p class="sub">可以直接测试普通问答、知识库问答和本地工具命令，例如 <code>/time</code>。</p>
+                <div class="row">
+                    <div class="field">
+                        <label for="conversationId">会话 ID</label>
+                        <input id="conversationId" value="session-web-1">
+                    </div>
+                    <div class="field">
+                        <label for="chatKnowledgeFlag">是否引用知识库</label>
+                        <input id="chatKnowledgeFlag" value="true" placeholder="true / false">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="chatMessage">消息内容</label>
+                    <textarea id="chatMessage" placeholder="例如：请介绍一下这个 Spring AI 项目里用到了什么"></textarea>
+                </div>
+                <div class="actions">
+                    <button class="primary" id="sendChatBtn">发送消息</button>
+                    <button class="ghost" id="timeBtn">发送 /time</button>
+                    <button class="ghost" id="weatherBtn">发送 /weather Beijing</button>
+                </div>
+                <div class="output">
+                    <pre id="chatOutput">等待发送消息...</pre>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<script>
+    const byId = (id) => document.getElementById(id);
+
+    async function requestJson(url, options = {}) {
+        const response = await fetch(url, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            ...options
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`HTTP ${response.status}: ${text}`);
+        }
+
+        const contentType = response.headers.get("content-type") || "";
+        return contentType.includes("application/json") ? response.json() : response.text();
+    }
+
+    function pretty(value) {
+        return JSON.stringify(value, null, 2);
+    }
+
+    function formatKnowledgeResult(result) {
+        if (!result || typeof result !== "object") {
+            return pretty(result);
+        }
+        const count = result.chunkCount ?? 0;
+        const titles = Array.isArray(result.titles) && result.titles.length > 0
+            ? result.titles.join("、")
+            : "无";
+        return `导入成功。\n当前共 ${count} 个知识片段。\n标题：${titles}`;
+    }
+
+    function formatChatResult(result) {
+        if (result && typeof result === "object" && typeof result.answer === "string") {
+            return result.answer;
+        }
+        return pretty(result);
+    }
+
+    function toBoolean(value) {
+        return String(value).trim().toLowerCase() !== "false";
+    }
+
+    async function loadHealth() {
+        try {
+            const health = await requestJson("/actuator/health");
+            const badge = byId("healthBadge");
+            badge.textContent = health.status;
+            badge.style.background = "#d1fae5";
+            badge.style.color = "#0f766e";
+        } catch (error) {
+            const badge = byId("healthBadge");
+            badge.textContent = "不可用";
+            badge.style.background = "#fee2e2";
+            badge.style.color = "#b91c1c";
+        }
+    }
+
+    async function loadKnowledgeStatus() {
+        try {
+            const status = await requestJson("/api/knowledge");
+            byId("knowledgeStatusText").textContent =
+                `当前共 ${status.chunkCount} 个知识片段，标题：${(status.titles || []).join("、") || "无"}`;
+        } catch (error) {
+            byId("knowledgeStatusText").textContent = `知识库状态读取失败：${error.message}`;
+        }
+    }
+
+    async function ingestKnowledge() {
+        const title = byId("knowledgeTitle").value.trim();
+        const content = byId("knowledgeContent").value.trim();
+
+        if (!title || !content) {
+            byId("knowledgeOutput").textContent = "请先填写知识标题和知识内容。";
+            return;
+        }
+
+        try {
+            const result = await requestJson("/api/knowledge/text", {
+                method: "POST",
+                body: JSON.stringify({ title, content })
+            });
+            byId("knowledgeOutput").textContent = formatKnowledgeResult(result);
+            await loadKnowledgeStatus();
+        } catch (error) {
+            byId("knowledgeOutput").textContent = error.message;
+        }
+    }
+
+    async function sendChat(messageOverride = null) {
+        const conversationId = byId("conversationId").value.trim() || "session-web-1";
+        const message = messageOverride ?? byId("chatMessage").value.trim();
+        const useKnowledge = toBoolean(byId("chatKnowledgeFlag").value);
+
+        if (!message) {
+            byId("chatOutput").textContent = "请输入消息内容。";
+            return;
+        }
+
+        try {
+            const result = await requestJson("/api/chat", {
+                method: "POST",
+                body: JSON.stringify({ conversationId, message, useKnowledge })
+            });
+            byId("chatOutput").textContent = formatChatResult(result);
+        } catch (error) {
+            byId("chatOutput").textContent = error.message;
+        }
+    }
+
+    function renderTickets(tickets) {
+        const container = byId("ticketList");
+        if (!tickets || tickets.length === 0) {
+            container.innerHTML = `<div class="empty">还没有工单</div>`;
+            return;
+        }
+
+        container.innerHTML = tickets.map(ticket => `
+            <article class="ticket-card">
+                <div class="ticket-head">
+                    <div>
+                        <div class="ticket-title">#${ticket.id} ${ticket.customerName}</div>
+                        <div class="muted">${ticket.question}</div>
+                    </div>
+                    <div class="muted">${ticket.citations?.join("、") || "无引用"}</div>
+                </div>
+                <div class="pill-row">
+                    <span class="pill category">${ticket.category}</span>
+                    <span class="pill priority">优先级：${ticket.priority}</span>
+                    <span class="pill mode">${ticket.mode}</span>
+                </div>
+                <div><strong>摘要：</strong>${ticket.summary}</div>
+                <div style="margin-top: 10px;"><strong>回复草稿：</strong></div>
+                <div class="muted" style="white-space: pre-wrap; line-height: 1.65; margin-top: 4px;">${ticket.replyDraft}</div>
+            </article>
+        `).join("");
+    }
+
+    async function createTicket() {
+        const customerName = byId("customerName").value.trim();
+        const question = byId("ticketQuestion").value.trim();
+        const useKnowledge = toBoolean(byId("ticketKnowledgeFlag").value);
+
+        if (!customerName || !question) {
+            renderTickets([]);
+            byId("ticketList").innerHTML = `<div class="empty">请先填写客户名和问题内容。</div>`;
+            return;
+        }
+
+        try {
+            await requestJson("/api/tickets", {
+                method: "POST",
+                body: JSON.stringify({ customerName, question, useKnowledge })
+            });
+            await loadTickets();
+        } catch (error) {
+            byId("ticketList").innerHTML = `<div class="empty">${error.message}</div>`;
+        }
+    }
+
+    async function loadTickets() {
+        try {
+            const tickets = await requestJson("/api/tickets");
+            renderTickets(tickets);
+        } catch (error) {
+            byId("ticketList").innerHTML = `<div class="empty">${error.message}</div>`;
+        }
+    }
+
+    byId("ingestBtn").addEventListener("click", ingestKnowledge);
+    byId("refreshKnowledgeBtn").addEventListener("click", loadKnowledgeStatus);
+    byId("sendChatBtn").addEventListener("click", () => sendChat());
+    byId("timeBtn").addEventListener("click", () => sendChat("/time"));
+    byId("weatherBtn").addEventListener("click", () => sendChat("/weather Beijing"));
+    byId("createTicketBtn").addEventListener("click", createTicket);
+    byId("loadTicketsBtn").addEventListener("click", loadTickets);
+
+    loadHealth();
+    loadKnowledgeStatus();
+    loadTickets();
+</script>
+</body>
+</html>
