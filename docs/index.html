@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马宇豪 | Java & AI Agent</title>
+    <meta name="description" content="马宇豪的个人主页，记录 Java 后端、AI Agent 应用开发与项目实践。">
+    <style>
+        :root {
+            --bg: #f4efe7;
+            --panel: rgba(255, 250, 244, 0.9);
+            --panel-strong: #fff9f0;
+            --ink: #1f2521;
+            --muted: #5f665f;
+            --accent: #b44b2f;
+            --accent-2: #1e5b52;
+            --line: rgba(31, 37, 33, 0.1);
+            --shadow: 0 18px 50px rgba(49, 37, 18, 0.12);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(180, 75, 47, 0.14), transparent 28%),
+                radial-gradient(circle at top right, rgba(30, 91, 82, 0.16), transparent 24%),
+                linear-gradient(180deg, #f9f5ef 0%, var(--bg) 55%, #efe5d6 100%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .frame {
+            width: min(1160px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 24px 0 72px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 18px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: rgba(255, 250, 244, 0.72);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 16px;
+            z-index: 10;
+            box-shadow: var(--shadow);
+        }
+
+        .brand {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 14px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 22px;
+            margin-top: 26px;
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background: var(--panel);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-main {
+            padding: 42px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-main::after {
+            content: "";
+            position: absolute;
+            right: -60px;
+            top: -50px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(180, 75, 47, 0.18), transparent 65%);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(30, 91, 82, 0.08);
+            color: var(--accent-2);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 18px 0 14px;
+            font-size: clamp(38px, 5vw, 68px);
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+        }
+
+        .hero-main p {
+            max-width: 680px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 18px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn.primary {
+            background: var(--ink);
+            color: #fff;
+        }
+
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: var(--line);
+        }
+
+        .hero-side {
+            display: grid;
+            gap: 18px;
+        }
+
+        .mini {
+            padding: 24px;
+        }
+
+        .mini h2,
+        .section-head h2 {
+            margin: 0 0 12px;
+            font-size: 24px;
+            letter-spacing: -0.03em;
+        }
+
+        .mini p,
+        .section-head p,
+        .project p,
+        .note p,
+        .contact-copy,
+        .timeline p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .tags,
+        .facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .tag,
+        .fact {
+            padding: 9px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid var(--line);
+            font-size: 13px;
+        }
+
+        .section {
+            margin-top: 22px;
+            padding: 28px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .grid-2,
+        .grid-3 {
+            display: grid;
+            gap: 18px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .project,
+        .note,
+        .timeline {
+            padding: 22px;
+            border-radius: var(--radius-md);
+            background: var(--panel-strong);
+            border: 1px solid var(--line);
+        }
+
+        .project strong,
+        .note strong,
+        .timeline strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .chip {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(180, 75, 47, 0.08);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .timeline time {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--accent-2);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .footer {
+            margin-top: 18px;
+            padding: 18px 4px 0;
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        @media (max-width: 980px) {
+            .hero,
+            .grid-2,
+            .grid-3,
+            .contact {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-main {
+                padding: 32px 24px;
+            }
+
+            .section {
+                padding: 22px;
+            }
+
+            .section-head {
+                align-items: start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .frame {
+                width: min(100% - 20px, 100%);
+                padding-top: 14px;
+            }
+
+            .nav {
+                border-radius: 24px;
+                padding: 16px;
+                position: static;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            .hero-main p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="frame">
+    <header class="nav">
+        <div class="brand">Mayuhao.dev</div>
+        <nav class="nav-links">
+            <a href="#about">关于</a>
+            <a href="#projects">项目</a>
+            <a href="#notes">博客</a>
+            <a href="#roadmap">经历</a>
+            <a href="#contact">联系</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <article class="card hero-main">
+            <div class="eyebrow">Java · AI Agent · Spring Boot</div>
+            <h1>马宇豪</h1>
+            <p>
+                河北师范大学计算机科学与技术本科生，主攻 Java 后端与 AI Agent 应用开发。
+                这里记录我的项目实践、技术笔记，以及我如何把模型调用、知识检索、流程控制和工程实现结合起来。
+            </p>
+            <div class="hero-actions">
+                <a class="btn primary" href="#projects">查看项目</a>
+                <a class="btn secondary" href="#notes">阅读博客</a>
+            </div>
+        </article>
+
+        <div class="hero-side">
+            <aside class="card mini" id="about">
+                <h2>当前方向</h2>
+                <p>关注 AI Agent 应用、Spring AI、RAG、Prompt 设计和后端工程落地。</p>
+                <div class="tags">
+                    <span class="tag">Java 21</span>
+                    <span class="tag">Spring Boot</span>
+                    <span class="tag">Spring AI</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">REST API</span>
+                    <span class="tag">Git</span>
+                </div>
+            </aside>
+
+            <aside class="card mini">
+                <h2>快速信息</h2>
+                <div class="facts">
+                    <span class="fact">河北师范大学</span>
+                    <span class="fact">专业前 15%</span>
+                    <span class="fact">蓝桥杯省二</span>
+                    <span class="fact">程序设计赛一等奖</span>
+                    <span class="fact">CET-4 / CET-6</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section class="card section" id="projects">
+        <div class="section-head">
+            <div>
+                <h2>精选项目</h2>
+                <p>比起堆概念，我更关注项目能不能形成完整链路：输入、状态、处理、输出、异常兜底。</p>
+            </div>
+        </div>
+        <div class="grid-3">
+            <article class="project">
+                <strong>AI 知识库工单助手</strong>
+                <p>围绕知识导入、智能聊天和工单分析构建。支持多轮上下文、轻量 RAG、工单分类与回复草稿生成。</p>
+                <div class="chips">
+                    <span class="chip">Spring Boot</span>
+                    <span class="chip">Spring AI</span>
+                    <span class="chip">RAG</span>
+                </div>
+                <p>重点练习了模型接入、知识召回、结果组织和前后端联动。</p>
+            </article>
+
+            <article class="project">
+                <strong>Java SE 智能问答程序</strong>
+                <p>使用 HttpClient 接入 OpenAI 兼容接口，支持基础对话、本地命令和简单上下文管理。</p>
+                <div class="chips">
+                    <span class="chip">Java SE</span>
+                    <span class="chip">HttpClient</span>
+                    <span class="chip">Tool Command</span>
+                </div>
+                <p>这个项目让我更直接理解了请求构造、返回解析和接口调试。</p>
+            </article>
+
+            <article class="project">
+                <strong>《愤怒的小鸟》复刻</strong>
+                <p>实现弹弓发射、碰撞判定、技能触发、结算存档与关卡流程，积累状态驱动和事件反馈经验。</p>
+                <div class="chips">
+                    <span class="chip">Unity</span>
+                    <span class="chip">C#</span>
+                    <span class="chip">Game Logic</span>
+                </div>
+                <p>虽然不是 AI 项目，但它训练了我对规则链路和状态流转的理解。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="card section" id="notes">
+        <div class="section-head">
+            <div>
+                <h2>博客与笔记</h2>
+                <p>这里先放 3 篇主页文章卡片。后续你可以继续往 `docs/` 里追加独立文章页。</p>
+            </div>
+        </div>
+        <div class="grid-3">
+            <article class="note">
+                <strong>我怎么理解 AI Agent 应用开发</strong>
+                <p>Agent 不是单纯调用模型，而是围绕目标把模型、上下文、工具、知识和工作流接起来。</p>
+            </article>
+
+            <article class="note">
+                <strong>从 Java 后端视角看 RAG</strong>
+                <p>RAG 在工程里要考虑的不只是“能召回”，还包括切分粒度、上下文长度、异常兜底和结果可控性。</p>
+            </article>
+
+            <article class="note">
+                <strong>我做项目时最重视什么</strong>
+                <p>功能闭环、接口清晰、可演示、可调试。先把链路跑通，再逐步优化精度和体验。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="card section" id="roadmap">
+        <div class="section-head">
+            <div>
+                <h2>经历路线</h2>
+                <p>目前的积累比较集中：Java 基础、后端开发、AI 应用落地和竞赛训练。</p>
+            </div>
+        </div>
+        <div class="grid-2">
+            <article class="timeline">
+                <time>2025.12 - 2026.02</time>
+                <strong>Java 后端实习</strong>
+                <p>参与内部管理系统接口开发，负责用户、公告、工单模块的增删改查、联调、异常处理和简单 SQL 优化。</p>
+            </article>
+
+            <article class="timeline">
+                <time>2026.04 - 至今</time>
+                <strong>AI Agent 应用方向实践</strong>
+                <p>围绕 Spring AI、ChatMemory、VectorStore 和 Prompt 设计持续做项目，重点关注知识问答与业务流程结合。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="card section" id="contact">
+        <div class="contact">
+            <div>
+                <div class="section-head" style="margin-bottom: 10px;">
+                    <div>
+                        <h2>联系与仓库</h2>
+                    </div>
+                </div>
+                <p class="contact-copy">
+                    这套页面已经适配 GitHub Pages。你把仓库推到 GitHub 后，可以把这里的邮箱、GitHub 链接和更多文章继续补全。
+                </p>
+            </div>
+            <div class="hero-actions" style="margin-top: 0;">
+                <a class="btn primary" href="mailto:2094193874@qq.com">邮箱联系</a>
+                <a class="btn secondary" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <span id="year"></span> 马宇豪 · Built for GitHub Pages
+    </footer>
+</div>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
