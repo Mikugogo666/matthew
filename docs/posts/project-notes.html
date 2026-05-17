@@ -259,6 +259,7 @@
             <a href="#multi-agent">多Agent</a>
             <a href="#amazon-ops">亚马逊决策</a>
             <a href="#skillfinder">SkillFinder</a>
+            <a href="#shipping-pack">发货打包</a>
         </nav>
     </div>
 </header>
@@ -274,6 +275,7 @@
             <a href="#multi-agent">多Agent竞品分析系统</a>
             <a href="#amazon-ops">亚马逊运营日志智能决策系统</a>
             <a href="#skillfinder">SkillFinder AI Agent 工具</a>
+            <a href="#shipping-pack">发货打包程序v1.4</a>
         </div>
     </div>
 </section>
@@ -434,6 +436,60 @@
         <h3>面试讲法</h3>
         <p class="quote">
             我会重点讲这个项目如何把“找仓库、读说明、克隆配置、检查更新”的重复流程整合到一个桌面工具里，体现工具化思维和工程落地能力。
+        </p>
+    </article>
+
+    <article class="card project" id="shipping-pack">
+        <h2>发货打包程序v1.4</h2>
+        <p>
+            这个项目面向仓储发货和装箱单生成场景，目标是把“导入发货需求、扫描商品、按箱号装箱、录入箱规重量、导出装箱单”的人工流程做成可交付桌面工具。
+        </p>
+        <div class="chips">
+            <span class="chip blue">Python</span>
+            <span class="chip green">Tkinter</span>
+            <span class="chip">openpyxl</span>
+            <span class="chip">PyInstaller</span>
+            <span class="chip">Excel 自动化</span>
+        </div>
+
+        <h3>项目背景</h3>
+        <p>
+            发货打包流程中常见的问题是：需求数据来自 Excel，SKU 命名不统一，扫描数量需要和需求数量实时对齐，最终装箱单还必须符合固定模板。纯手工处理容易出现漏扫、超扫、箱号错乱、重量信息遗漏和导出格式不一致。
+        </p>
+
+        <div class="split">
+            <div class="panel">
+                <strong>核心功能</strong>
+                <ul>
+                    <li>导入发货需求 Excel，形成本地需求池。</li>
+                    <li>支持 SKU 映射文件，将扫描值映射到公司 SKU 和用户 SKU。</li>
+                    <li>扫描商品并按箱号累计数量，实时更新待扫描、部分扫描、已完成状态。</li>
+                    <li>维护箱规尺寸，录入毛重，计算体积重和计费重。</li>
+                    <li>按发货计划 ID 导出符合模板的装箱单。</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <strong>工程处理</strong>
+                <ul>
+                    <li>使用 Tkinter Notebook 拆分需求导入、扫描装箱、箱规管理三个操作页。</li>
+                    <li>使用 openpyxl 处理 Excel 读取、字段兼容、日期格式、列宽和合并单元格。</li>
+                    <li>实现超扫校验、删除扫描行、重新打包、箱号分组和本地数据持久化。</li>
+                    <li>通过 PyInstaller 打包为 Windows 可执行程序，降低非技术人员使用门槛。</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>真正有价值的地方</h3>
+        <ul>
+            <li>项目直接解决具体业务流程，不只是演示型程序。</li>
+            <li>把 Excel 自动化、桌面 GUI、数据校验和业务规则结合在一起。</li>
+            <li>导出结果贴合装箱单模板，能被业务人员直接使用。</li>
+            <li>考虑了 Excel 文件被占用时的备用命名、异常提示和可执行程序交付。</li>
+        </ul>
+
+        <h3>面试讲法</h3>
+        <p class="quote">
+            我会重点说这个项目如何把仓储发货中的手工 Excel 流程拆成“需求池、扫描结果、装箱结果、导出模板”四类数据，并通过 GUI 和校验逻辑降低人工出错率。
         </p>
     </article>
 </main>
