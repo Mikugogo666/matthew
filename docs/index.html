@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>马宇豪 | Java & AI Agent</title>
-    <meta name="description" content="马宇豪的个人主页，记录 Java 后端、AI Agent 应用开发与项目实践。">
+    <title>马宇豪 | AI Agent 应用开发与 Python 后端</title>
+    <meta name="description" content="马宇豪的个人作品集，聚焦 AI Agent 应用开发、Python 后端、数据分析、工具自动化和项目实践。">
+    <meta name="author" content="马宇豪">
+    <meta property="og:title" content="马宇豪 | AI Agent 应用开发与 Python 后端">
+    <meta property="og:description" content="河北师范大学计算机科学与技术本科生，展示 AI Agent、数据分析、Python 后端和工具型项目实践。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/profile.jpeg">
     <style>
         :root {
-            --bg: #f4efe7;
-            --panel: rgba(255, 250, 244, 0.9);
-            --panel-strong: #fff9f0;
-            --ink: #1f2521;
-            --muted: #5f665f;
-            --accent: #b44b2f;
-            --accent-2: #1e5b52;
-            --line: rgba(31, 37, 33, 0.1);
-            --shadow: 0 18px 50px rgba(49, 37, 18, 0.12);
-            --radius-lg: 28px;
-            --radius-md: 18px;
-            --radius-sm: 12px;
+            --bg: #f6f7f9;
+            --surface: #ffffff;
+            --surface-soft: #f0f4f8;
+            --ink: #172026;
+            --muted: #5b6770;
+            --line: #dce3ea;
+            --blue: #2463eb;
+            --green: #0f766e;
+            --amber: #b45309;
+            --red: #b42318;
+            --shadow: 0 16px 38px rgba(23, 32, 38, 0.08);
+            --radius: 8px;
         }
 
         * {
@@ -32,11 +37,8 @@
         body {
             margin: 0;
             color: var(--ink);
-            font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(180, 75, 47, 0.14), transparent 28%),
-                radial-gradient(circle at top right, rgba(30, 91, 82, 0.16), transparent 24%),
-                linear-gradient(180deg, #f9f5ef 0%, var(--bg) 55%, #efe5d6 100%);
+            font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
         }
 
         a {
@@ -44,199 +46,231 @@
             text-decoration: none;
         }
 
-        .frame {
+        .page {
+            min-height: 100vh;
+        }
+
+        .wrap {
             width: min(1160px, calc(100% - 32px));
             margin: 0 auto;
-            padding: 24px 0 72px;
         }
 
         .nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid var(--line);
+            background: rgba(246, 247, 249, 0.92);
+            backdrop-filter: blur(14px);
+        }
+
+        .nav-inner {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
-            padding: 14px 18px;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            background: rgba(255, 250, 244, 0.72);
-            backdrop-filter: blur(16px);
-            position: sticky;
-            top: 16px;
-            z-index: 10;
-            box-shadow: var(--shadow);
+            gap: 20px;
+            min-height: 68px;
         }
 
         .brand {
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+
+        .brand-mark {
+            display: inline-grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius);
+            background: var(--ink);
+            color: #fff;
+            font-size: 14px;
         }
 
         .nav-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-end;
-            gap: 14px;
+            gap: 18px;
             color: var(--muted);
             font-size: 14px;
         }
 
+        .nav-links a:hover {
+            color: var(--blue);
+        }
+
         .hero {
+            padding: 56px 0 34px;
+            background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .hero-grid {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 22px;
-            margin-top: 26px;
-        }
-
-        .card {
-            border: 1px solid var(--line);
-            border-radius: var(--radius-lg);
-            background: var(--panel);
-            box-shadow: var(--shadow);
-        }
-
-        .hero-main {
-            padding: 42px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-main::after {
-            content: "";
-            position: absolute;
-            right: -60px;
-            top: -50px;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(180, 75, 47, 0.18), transparent 65%);
+            grid-template-columns: minmax(0, 1.35fr) 340px;
+            gap: 32px;
+            align-items: center;
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: rgba(30, 91, 82, 0.08);
-            color: var(--accent-2);
+            padding: 7px 10px;
+            border: 1px solid rgba(36, 99, 235, 0.2);
+            border-radius: var(--radius);
+            background: rgba(36, 99, 235, 0.07);
+            color: var(--blue);
             font-size: 13px;
             font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
         }
 
         h1 {
-            margin: 18px 0 14px;
-            font-size: clamp(38px, 5vw, 68px);
-            line-height: 0.95;
-            letter-spacing: -0.05em;
+            margin: 18px 0 16px;
+            font-size: clamp(40px, 6vw, 70px);
+            line-height: 1.02;
+            letter-spacing: 0;
         }
 
-        .hero-main p {
-            max-width: 680px;
+        .lead {
+            max-width: 760px;
             margin: 0;
             color: var(--muted);
             font-size: 18px;
-            line-height: 1.8;
+            line-height: 1.85;
         }
 
         .hero-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-top: 28px;
+            margin-top: 26px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 46px;
-            padding: 0 18px;
-            border-radius: 999px;
-            font-size: 15px;
+            min-height: 44px;
+            padding: 0 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--ink);
             font-weight: 700;
-            border: 1px solid transparent;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+            font-size: 14px;
+            transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
         }
 
         .btn:hover {
             transform: translateY(-1px);
+            border-color: rgba(36, 99, 235, 0.45);
         }
 
         .btn.primary {
-            background: var(--ink);
+            border-color: var(--blue);
+            background: var(--blue);
             color: #fff;
         }
 
-        .btn.secondary {
-            background: rgba(255, 255, 255, 0.6);
-            border-color: var(--line);
+        .profile {
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow);
         }
 
-        .hero-side {
+        .profile-top {
             display: grid;
-            gap: 18px;
+            grid-template-columns: 92px minmax(0, 1fr);
+            gap: 16px;
+            align-items: center;
         }
 
-        .mini {
-            padding: 24px;
+        .profile img {
+            width: 92px;
+            height: 118px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: var(--surface-soft);
         }
 
-        .mini h2,
-        .section-head h2 {
-            margin: 0 0 12px;
-            font-size: 24px;
-            letter-spacing: -0.03em;
+        .profile strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 18px;
         }
 
-        .mini p,
-        .section-head p,
-        .project p,
-        .note p,
-        .contact-copy,
-        .timeline p {
+        .profile p {
             margin: 0;
             color: var(--muted);
-            line-height: 1.75;
+            line-height: 1.65;
+            font-size: 14px;
         }
 
-        .tags,
         .facts {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
             margin-top: 16px;
         }
 
-        .tag,
         .fact {
-            padding: 9px 12px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.72);
+            padding: 10px;
             border: 1px solid var(--line);
-            font-size: 13px;
+            border-radius: var(--radius);
+            background: var(--surface-soft);
+        }
+
+        .fact span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .fact b {
+            display: block;
+            margin-top: 4px;
+            font-size: 14px;
         }
 
         .section {
-            margin-top: 22px;
-            padding: 28px;
+            padding: 34px 0 0;
         }
 
         .section-head {
             display: flex;
             align-items: end;
             justify-content: space-between;
-            gap: 16px;
+            gap: 20px;
             margin-bottom: 18px;
         }
 
+        .section-head h2 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            letter-spacing: 0;
+        }
+
+        .section-head p {
+            max-width: 760px;
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
         .grid-2,
-        .grid-3 {
+        .grid-3,
+        .grid-4 {
             display: grid;
-            gap: 18px;
+            gap: 16px;
         }
 
         .grid-2 {
@@ -247,273 +281,571 @@
             grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
-        .project,
-        .note,
-        .timeline {
-            padding: 22px;
-            border-radius: var(--radius-md);
-            background: var(--panel-strong);
-            border: 1px solid var(--line);
+        .grid-4 {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
         }
 
-        .project strong,
-        .note strong,
-        .timeline strong {
+        .card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .skill-card,
+        .note-card,
+        .timeline-card,
+        .award-card {
+            padding: 18px;
+        }
+
+        .skill-card strong,
+        .note-card strong,
+        .timeline-card strong,
+        .award-card strong {
             display: block;
             margin-bottom: 10px;
-            font-size: 18px;
+            font-size: 17px;
         }
 
-        .chips {
+        .skill-card p,
+        .note-card p,
+        .timeline-card p,
+        .award-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.72;
+            font-size: 14px;
+        }
+
+        .project {
+            display: grid;
+            grid-template-columns: 0.86fr 1.14fr;
+            gap: 22px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .project:last-child {
+            margin-bottom: 0;
+        }
+
+        .project h3 {
+            margin: 0 0 10px;
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        .project-meta {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 14px 0;
+            margin-bottom: 14px;
         }
 
-        .chip {
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: rgba(180, 75, 47, 0.08);
-            color: var(--accent);
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 4px 9px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: var(--surface-soft);
+            color: var(--muted);
             font-size: 12px;
             font-weight: 700;
         }
 
-        .timeline time {
+        .pill.blue {
+            border-color: rgba(36, 99, 235, 0.24);
+            background: rgba(36, 99, 235, 0.08);
+            color: var(--blue);
+        }
+
+        .pill.green {
+            border-color: rgba(15, 118, 110, 0.24);
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--green);
+        }
+
+        .pill.amber {
+            border-color: rgba(180, 83, 9, 0.24);
+            background: rgba(180, 83, 9, 0.09);
+            color: var(--amber);
+        }
+
+        .project p {
+            margin: 0 0 14px;
+            color: var(--muted);
+            line-height: 1.78;
+        }
+
+        .project-block {
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--surface-soft);
+        }
+
+        .project-block strong {
             display: block;
-            margin-bottom: 10px;
-            color: var(--accent-2);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .project-block ul,
+        .clean-list {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .project-block li,
+        .clean-list li {
+            margin: 4px 0;
+        }
+
+        .stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .timeline-card time {
+            display: inline-block;
+            margin-bottom: 8px;
+            color: var(--blue);
             font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
+            font-weight: 800;
         }
 
         .contact {
             display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 18px;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 22px;
             align-items: center;
+            padding: 24px;
+        }
+
+        .contact h2 {
+            margin: 0 0 10px;
+            font-size: 26px;
+        }
+
+        .contact p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         .footer {
-            margin-top: 18px;
-            padding: 18px 4px 0;
+            padding: 28px 0 40px;
             color: var(--muted);
             font-size: 14px;
             text-align: center;
         }
 
         @media (max-width: 980px) {
-            .hero,
+            .hero-grid,
+            .project,
             .grid-2,
             .grid-3,
+            .grid-4,
             .contact {
                 grid-template-columns: 1fr;
             }
 
-            .hero-main {
-                padding: 32px 24px;
+            .profile {
+                max-width: 520px;
             }
 
-            .section {
-                padding: 22px;
-            }
-
-            .section-head {
-                align-items: start;
-                flex-direction: column;
+            .contact-actions {
+                justify-content: flex-start;
             }
         }
 
         @media (max-width: 640px) {
-            .frame {
-                width: min(100% - 20px, 100%);
-                padding-top: 14px;
+            .wrap {
+                width: min(100% - 22px, 100%);
             }
 
-            .nav {
-                border-radius: 24px;
-                padding: 16px;
-                position: static;
+            .nav-inner {
+                align-items: flex-start;
+                flex-direction: column;
+                min-height: 0;
+                padding: 14px 0;
             }
 
-            h1 {
-                font-size: 42px;
+            .nav-links {
+                justify-content: flex-start;
+                gap: 12px;
             }
 
-            .hero-main p {
+            .hero {
+                padding-top: 34px;
+            }
+
+            .lead {
                 font-size: 16px;
+            }
+
+            .profile-top,
+            .facts {
+                grid-template-columns: 1fr;
+            }
+
+            .project {
+                padding: 18px;
             }
         }
     </style>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "马宇豪",
+            "jobTitle": "AI Agent 应用开发实习生",
+            "email": "mailto:2094193874@qq.com",
+            "url": "https://mikugogo666.github.io/matthew/",
+            "sameAs": ["https://github.com/Mikugogo666"],
+            "knowsAbout": ["AI Agent", "Python", "FastAPI", "Data Analysis", "LLM Application", "Java"]
+        }
+    </script>
 </head>
 <body>
-<div class="frame">
+<div class="page">
     <header class="nav">
-        <div class="brand">Mayuhao.dev</div>
-        <nav class="nav-links">
-            <a href="#about">关于</a>
-            <a href="#projects">项目</a>
-            <a href="#notes">博客</a>
-            <a href="#roadmap">经历</a>
-            <a href="#contact">联系</a>
-        </nav>
+        <div class="wrap nav-inner">
+            <a class="brand" href="#top" aria-label="回到首页">
+                <span class="brand-mark">MY</span>
+                <span>Mayuhao.dev</span>
+            </a>
+            <nav class="nav-links" aria-label="主导航">
+                <a href="#about">关于</a>
+                <a href="#skills">能力</a>
+                <a href="#projects">项目</a>
+                <a href="#experience">经历</a>
+                <a href="#notes">笔记</a>
+                <a href="#contact">联系</a>
+            </nav>
+        </div>
     </header>
 
-    <section class="hero">
-        <article class="card hero-main">
-            <div class="eyebrow">Java · AI Agent · Spring Boot</div>
-            <h1>马宇豪</h1>
-            <p>
-                河北师范大学计算机科学与技术本科生，主攻 Java 后端与 AI Agent 应用开发。
-                这里记录我的项目实践、技术笔记，以及我如何把模型调用、知识检索、流程控制和工程实现结合起来。
-            </p>
-            <div class="hero-actions">
-                <a class="btn primary" href="#projects">查看项目</a>
-                <a class="btn secondary" href="#notes">阅读博客</a>
-            </div>
-        </article>
-
-        <div class="hero-side">
-            <aside class="card mini" id="about">
-                <h2>当前方向</h2>
-                <p>关注 AI Agent 应用、Spring AI、RAG、Prompt 设计和后端工程落地。</p>
-                <div class="tags">
-                    <span class="tag">Java 21</span>
-                    <span class="tag">Spring Boot</span>
-                    <span class="tag">Spring AI</span>
-                    <span class="tag">MySQL</span>
-                    <span class="tag">REST API</span>
-                    <span class="tag">Git</span>
-                </div>
-            </aside>
-
-            <aside class="card mini">
-                <h2>快速信息</h2>
-                <div class="facts">
-                    <span class="fact">河北师范大学</span>
-                    <span class="fact">专业前 15%</span>
-                    <span class="fact">蓝桥杯省二</span>
-                    <span class="fact">程序设计赛一等奖</span>
-                    <span class="fact">CET-4 / CET-6</span>
-                </div>
-            </aside>
-        </div>
-    </section>
-
-    <section class="card section" id="projects">
-        <div class="section-head">
-            <div>
-                <h2>精选项目</h2>
-                <p>比起堆概念，我更关注项目能不能形成完整链路：输入、状态、处理、输出、异常兜底。</p>
-            </div>
-        </div>
-        <div class="grid-3">
-            <article class="project">
-                <strong>AI 知识库工单助手</strong>
-                <p>围绕知识导入、智能聊天和工单分析构建。支持多轮上下文、轻量 RAG、工单分类与回复草稿生成。</p>
-                <div class="chips">
-                    <span class="chip">Spring Boot</span>
-                    <span class="chip">Spring AI</span>
-                    <span class="chip">RAG</span>
-                </div>
-                <p>重点练习了模型接入、知识召回、结果组织和前后端联动。</p>
-            </article>
-
-            <article class="project">
-                <strong>Java SE 智能问答程序</strong>
-                <p>使用 HttpClient 接入 OpenAI 兼容接口，支持基础对话、本地命令和简单上下文管理。</p>
-                <div class="chips">
-                    <span class="chip">Java SE</span>
-                    <span class="chip">HttpClient</span>
-                    <span class="chip">Tool Command</span>
-                </div>
-                <p>这个项目让我更直接理解了请求构造、返回解析和接口调试。</p>
-            </article>
-
-            <article class="project">
-                <strong>《愤怒的小鸟》复刻</strong>
-                <p>实现弹弓发射、碰撞判定、技能触发、结算存档与关卡流程，积累状态驱动和事件反馈经验。</p>
-                <div class="chips">
-                    <span class="chip">Unity</span>
-                    <span class="chip">C#</span>
-                    <span class="chip">Game Logic</span>
-                </div>
-                <p>虽然不是 AI 项目，但它训练了我对规则链路和状态流转的理解。</p>
-            </article>
-        </div>
-    </section>
-
-    <section class="card section" id="notes">
-        <div class="section-head">
-            <div>
-                <h2>博客与笔记</h2>
-                <p>这里先放 3 篇主页文章卡片。后续你可以继续往 `docs/` 里追加独立文章页。</p>
-            </div>
-        </div>
-        <div class="grid-3">
-            <article class="note">
-                <strong>我怎么理解 AI Agent 应用开发</strong>
-                <p>Agent 不是单纯调用模型，而是围绕目标把模型、上下文、工具、知识和工作流接起来。</p>
-            </article>
-
-            <article class="note">
-                <strong>从 Java 后端视角看 RAG</strong>
-                <p>RAG 在工程里要考虑的不只是“能召回”，还包括切分粒度、上下文长度、异常兜底和结果可控性。</p>
-            </article>
-
-            <article class="note">
-                <strong>我做项目时最重视什么</strong>
-                <p>功能闭环、接口清晰、可演示、可调试。先把链路跑通，再逐步优化精度和体验。</p>
-            </article>
-        </div>
-    </section>
-
-    <section class="card section" id="roadmap">
-        <div class="section-head">
-            <div>
-                <h2>经历路线</h2>
-                <p>目前的积累比较集中：Java 基础、后端开发、AI 应用落地和竞赛训练。</p>
-            </div>
-        </div>
-        <div class="grid-2">
-            <article class="timeline">
-                <time>2025.12 - 2026.02</time>
-                <strong>Java 后端实习</strong>
-                <p>参与内部管理系统接口开发，负责用户、公告、工单模块的增删改查、联调、异常处理和简单 SQL 优化。</p>
-            </article>
-
-            <article class="timeline">
-                <time>2026.04 - 至今</time>
-                <strong>AI Agent 应用方向实践</strong>
-                <p>围绕 Spring AI、ChatMemory、VectorStore 和 Prompt 设计持续做项目，重点关注知识问答与业务流程结合。</p>
-            </article>
-        </div>
-    </section>
-
-    <section class="card section" id="contact">
-        <div class="contact">
-            <div>
-                <div class="section-head" style="margin-bottom: 10px;">
-                    <div>
-                        <h2>联系与仓库</h2>
+    <main id="top">
+        <section class="hero">
+            <div class="wrap hero-grid">
+                <div>
+                    <span class="eyebrow">AI Agent 应用开发 · Python 后端 · 数据分析</span>
+                    <h1>马宇豪</h1>
+                    <p class="lead">
+                        河北师范大学计算机科学与技术本科生，求职方向为 AI Agent 应用开发实习生。
+                        我关注模型调用、工具编排、结构化输出、结果校验和业务自动化，也具备 Python 后端、数据分析和基础 Java 后端能力。
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn primary" href="#projects">查看核心项目</a>
+                        <a class="btn" href="mailto:2094193874@qq.com">发送邮件</a>
+                        <a class="btn" href="https://github.com/Mikugogo666" target="_blank" rel="noreferrer">GitHub 主页</a>
                     </div>
                 </div>
-                <p class="contact-copy">
-                    这套页面已经适配 GitHub Pages。你把仓库推到 GitHub 后，可以把这里的邮箱、GitHub 链接和更多文章继续补全。
-                </p>
+
+                <aside class="profile" id="about" aria-label="个人信息">
+                    <div class="profile-top">
+                        <img src="assets/profile.jpeg" alt="马宇豪证件照">
+                        <div>
+                            <strong>AI Agent 应用开发实习生</strong>
+                            <p>计算机科学与技术本科，专业排名前 15%。熟悉 Prompt 编排、工具调用、上下文管理、结果校验和 Python 工程落地。</p>
+                        </div>
+                    </div>
+                    <div class="facts">
+                        <div class="fact">
+                            <span>学校</span>
+                            <b>河北师范大学</b>
+                        </div>
+                        <div class="fact">
+                            <span>专业</span>
+                            <b>计算机科学与技术</b>
+                        </div>
+                        <div class="fact">
+                            <span>英语</span>
+                            <b>CET-4 / CET-6</b>
+                        </div>
+                        <div class="fact">
+                            <span>竞赛</span>
+                            <b>蓝桥杯省二等奖</b>
+                        </div>
+                    </div>
+                </aside>
             </div>
-            <div class="hero-actions" style="margin-top: 0;">
-                <a class="btn primary" href="mailto:2094193874@qq.com">邮箱联系</a>
-                <a class="btn secondary" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+        </section>
+
+        <section class="wrap section" id="skills">
+            <div class="section-head">
+                <div>
+                    <h2>能力画像</h2>
+                    <p>主页内容按求职方向重新组织，重点突出 AI Agent、Python 后端、数据分析、工具自动化和工程交付能力。</p>
+                </div>
             </div>
-        </div>
-    </section>
+            <div class="grid-4">
+                <article class="card skill-card">
+                    <strong>AI Agent 应用</strong>
+                    <p>熟悉大模型接口接入、Prompt 设计、多轮上下文维护、工具调用、知识检索、结构化输出和结果校验。</p>
+                </article>
+                <article class="card skill-card">
+                    <strong>Python 后端与自动化</strong>
+                    <p>能使用 Python、FastAPI、RESTful API 和常用标准库完成数据处理、接口开发、自动化脚本和项目原型。</p>
+                </article>
+                <article class="card skill-card">
+                    <strong>数据分析与决策</strong>
+                    <p>了解 Pandas、NumPy、scikit-learn、指标分析和业务规则诊断，能把数据转化为可执行建议。</p>
+                </article>
+                <article class="card skill-card">
+                    <strong>Java 与工程工具</strong>
+                    <p>掌握 Java SE 基础，了解 Spring Boot、MyBatis-Plus；熟悉 Git、IDEA、Codex CLI 和常见大模型工具。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="wrap section" id="projects">
+            <div class="section-head">
+                <div>
+                    <h2>核心项目</h2>
+                    <p>以下项目来自新版简历。每个项目都补充了技术栈、开发目的和真正有价值的地方，方便面试官快速理解项目含金量。</p>
+                </div>
+            </div>
+
+            <article class="card project">
+                <div>
+                    <div class="project-meta">
+                        <span class="pill blue">2026.05 - 至今</span>
+                        <span class="pill green">项目负责人</span>
+                        <span class="pill amber">AI Agent</span>
+                    </div>
+                    <h3>多Agent竞品分析系统</h3>
+                    <p>
+                        一个面向竞品调研场景的多级 Agent 协作系统，支持从行业主题输入到候选筛选、证据采集、竞品分析、审校和报告输出的完整链路。
+                    </p>
+                    <div class="stack">
+                        <span class="pill">Python</span>
+                        <span class="pill">LLM Agent</span>
+                        <span class="pill">Controller -> Manager -> Executor</span>
+                        <span class="pill">Markdown</span>
+                        <span class="pill">JSON</span>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="project-block">
+                        <strong>编写目的</strong>
+                        <ul>
+                            <li>验证多 Agent 分工协作在真实调研流程中的可行性。</li>
+                            <li>让系统自动完成候选发现、重点筛选、公开信息采集和报告生成。</li>
+                            <li>保留证据、结构化结果和审校信息，提升报告可信度。</li>
+                        </ul>
+                    </div>
+                    <div class="project-block">
+                        <strong>突出价值</strong>
+                        <ul>
+                            <li>三层 Agent 架构清晰，便于解释任务拆分和协作边界。</li>
+                            <li>用 ProjectContext、EvidenceItem、AnalysisFinding 等结构打通数据流。</li>
+                            <li>支持 Markdown 报告和 JSON 结构化结果双格式交付。</li>
+                            <li>接入 severity、blocking、suggestion 审校字段，让弱证据影响最终建议。</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card project">
+                <div>
+                    <div class="project-meta">
+                        <span class="pill blue">2026.03</span>
+                        <span class="pill green">独立设计开发</span>
+                        <span class="pill amber">数据决策</span>
+                    </div>
+                    <h3>亚马逊运营日志智能决策系统</h3>
+                    <p>
+                        面向亚马逊运营团队的数据决策系统，整合店铺、Listing、订单、FBA 库存、广告报表和运营日志，辅助运营复盘和异常诊断。
+                    </p>
+                    <div class="stack">
+                        <span class="pill">Python</span>
+                        <span class="pill">FastAPI</span>
+                        <span class="pill">Pandas</span>
+                        <span class="pill">NumPy</span>
+                        <span class="pill">scikit-learn</span>
+                        <span class="pill">ECharts</span>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="project-block">
+                        <strong>编写目的</strong>
+                        <ul>
+                            <li>把分散的运营数据整合成可复盘、可分析、可展示的数据服务。</li>
+                            <li>通过销量、CTR、CVR、ACOS 等指标判断运营动作效果。</li>
+                            <li>自动识别断货风险、高 ACOS 低转化、高花费无订单等问题。</li>
+                        </ul>
+                    </div>
+                    <div class="project-block">
+                        <strong>突出价值</strong>
+                        <ul>
+                            <li>不是单纯展示报表，而是生成 P0/P1/P2 优先级任务和优化建议。</li>
+                            <li>体现数据清洗、指标建模、后端接口和可视化交付的完整能力。</li>
+                            <li>驾驶舱支持单品复盘、动作时间线、库存预警和执行计划。</li>
+                            <li>业务场景明确，能说明如何用数据驱动运营决策。</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card project">
+                <div>
+                    <div class="project-meta">
+                        <span class="pill blue">2026.04</span>
+                        <span class="pill green">独立开发</span>
+                        <span class="pill amber">效率工具</span>
+                    </div>
+                    <h3>SkillFinder AI Agent 技能发现与安装工具</h3>
+                    <p>
+                        一款桌面端 AI Agent 技能管理工具，用于搜索 Claude Code Skills、Hooks、Plugins 和 Codex Skills，并支持分类展示和本地安装管理。
+                    </p>
+                    <div class="stack">
+                        <span class="pill">Python</span>
+                        <span class="pill">Tkinter</span>
+                        <span class="pill">GitHub Search API</span>
+                        <span class="pill">ThreadPoolExecutor</span>
+                        <span class="pill">Git</span>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="project-block">
+                        <strong>编写目的</strong>
+                        <ul>
+                            <li>解决 AI Agent 技能查找、筛选、安装和更新流程分散的问题。</li>
+                            <li>把搜索 GitHub、读 README、克隆仓库和配置目录整合成可视化操作。</li>
+                            <li>同时支持 Claude Code 与 Codex 两类技能生态的本地化管理。</li>
+                        </ul>
+                    </div>
+                    <div class="project-block">
+                        <strong>突出价值</strong>
+                        <ul>
+                            <li>接入 GitHub Search API，按关键词、Topic、Star、更新时间等维度筛选仓库。</li>
+                            <li>使用 ThreadPoolExecutor 做并发搜索，提升结果获取效率。</li>
+                            <li>支持一键安装、更新检测、批量勾选、本地目录管理和安装撤回。</li>
+                            <li>体现工具开发、API 接入、并发任务和 AI 工具生态理解能力。</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="wrap section" id="experience">
+            <div class="section-head">
+                <div>
+                    <h2>实习与成长路线</h2>
+                    <p>目前的经历围绕 AI Agent 应用、外贸业务流程自动化、Python 后端和项目交付展开。</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <article class="card timeline-card">
+                    <time>2026.05 - 至今</time>
+                    <strong>深圳伊缪科技有限公司 · AI Agent 应用开发实习生</strong>
+                    <p>参与外贸业务 AI Agent 系统建设，围绕客户询盘、邮件跟进、产品资料检索、多语言翻译和报价辅助等流程设计自动化方案。</p>
+                    <ul class="clean-list">
+                        <li>优化提示词流程、上下文记忆和工具调用逻辑。</li>
+                        <li>整理产品资料、FAQ、报价规则和外贸话术，构建可召回知识内容。</li>
+                        <li>参与结果校验、异常兜底、日志排查和演示交付。</li>
+                    </ul>
+                </article>
+                <article class="card timeline-card">
+                    <time>2023.09 - 至今</time>
+                    <strong>河北师范大学 · 计算机科学与技术本科</strong>
+                    <p>核心课程包括数据结构与算法、操作系统、计算机网络、数据库原理和软件工程。专业排名前 15%，曾获得单项奖学金。</p>
+                    <ul class="clean-list">
+                        <li>持续练习 Python、Java、后端接口和数据分析项目。</li>
+                        <li>通过 CET-4 / CET-6，能阅读英文技术文档。</li>
+                        <li>使用 Git、IDEA、Codex CLI 和常见大模型工具完成项目迭代。</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="wrap section" id="notes">
+            <div class="section-head">
+                <div>
+                    <h2>项目笔记方向</h2>
+                    <p>这些主题可以继续扩展成博客文章，既能展示项目，也能展示你对技术和业务的理解。</p>
+                </div>
+            </div>
+            <div class="grid-3">
+                <article class="card note-card">
+                    <strong>多 Agent 系统怎么拆层</strong>
+                    <p>记录 Controller、Manager、Executor 的职责边界，以及如何用统一数据结构让多个 Agent 稳定交接结果。</p>
+                </article>
+                <article class="card note-card">
+                    <strong>从运营日志到可执行建议</strong>
+                    <p>围绕 CTR、CVR、ACOS、库存风险和广告异常，说明如何把数据分析结果转化为运营任务优先级。</p>
+                </article>
+                <article class="card note-card">
+                    <strong>AI Agent 工具生态管理</strong>
+                    <p>总结 Claude Code Skills、Codex Skills 的使用差异，以及为什么技能发现和安装流程值得工具化。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="wrap section" id="awards">
+            <div class="section-head">
+                <div>
+                    <h2>竞赛与证书</h2>
+                    <p>补充基础能力证明，和项目经历一起形成更完整的求职页面。</p>
+                </div>
+            </div>
+            <div class="grid-4">
+                <article class="card award-card">
+                    <strong>蓝桥杯 C/C++ 省二等奖</strong>
+                    <p>2025 年全国软件和信息技术专业人才大赛。</p>
+                </article>
+                <article class="card award-card">
+                    <strong>蓝桥杯 Java 省二等奖</strong>
+                    <p>2026 年全国软件和信息技术专业人才大赛。</p>
+                </article>
+                <article class="card award-card">
+                    <strong>校程序设计大赛一等奖</strong>
+                    <p>河北师范大学程序设计大赛。</p>
+                </article>
+                <article class="card award-card">
+                    <strong>CET-4 / CET-6</strong>
+                    <p>能阅读英文技术文档，辅助 API、框架和开源项目学习。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="wrap section" id="contact">
+            <div class="card contact">
+                <div>
+                    <h2>联系我</h2>
+                    <p>
+                        正在寻找 AI Agent 应用开发、Python 后端开发相关实习机会。
+                        欢迎通过邮箱或 GitHub 联系我，也可以直接查看本页项目了解我的实践方向。
+                    </p>
+                </div>
+                <div class="contact-actions">
+                    <a class="btn primary" href="mailto:2094193874@qq.com">2094193874@qq.com</a>
+                    <a class="btn" href="mailto:tthewma028@gmail.com">tthewma028@gmail.com</a>
+                    <a class="btn" href="tel:19563672273">19563672273</a>
+                    <a class="btn" href="https://github.com/Mikugogo666" target="_blank" rel="noreferrer">GitHub</a>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer class="footer">
-        <span id="year"></span> 马宇豪 · Built for GitHub Pages
+        <span id="year"></span> 马宇豪 · AI Agent 应用开发 · Built for GitHub Pages
     </footer>
 </div>
 
